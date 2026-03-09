@@ -1,4 +1,92 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>应急预案和演练</title>
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    display: flex;
+    font-family: "Microsoft YaHei", sans-serif;
+  }
+
+  .nav {
+    width: 100px;
+    height: 100vh;
+    background: #2c3e50;
+    color: white;
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    gap: 10px;
+  }
+
+  .nav a {
+    color: white;
+    text-align: center;
+    padding: 12px 8px;
+    text-decoration: none;
+    background: #34495e;
+    border-radius: 6px;
+  }
+
+  .nav a:hover {
+    background: #1abc9c;
+  }
+
+  .content {
+    margin-left: 100px;
+    padding: 25px;
+    width: calc(100% - 100px);
+  }
+
+  .box {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  }
+
+  video {
+    width: 100%;
+    border-radius: 8px;
+    margin-top: 15px;
+  }
+</style>
+</head>
+
+<body>
+
+<div class="nav">
+  <a href="index.html">简介</a>
+  <a href="yanshi.html">演练</a>
+</div>
+
+<div class="content">
+  <div class="box">
+    <h3>演练视频</h3>
+    <video controls>
+      <source src="yanshi.mp4" type="video/mp4">
+    </video>
+  </div>
+</div>
+
+</body>
+</html>
+
+
+
+
+
+
+<!--<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
@@ -52,4 +140,6 @@ body{background:#f5f7fa}
 </div>
 <div class="footer">© 2025 博野县应急管理局 版权所有</div>
 </body>
+
 </html>
+-->
