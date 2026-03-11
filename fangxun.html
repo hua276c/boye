@@ -15,9 +15,21 @@ body{background:#f5f7fa}
 .content{flex:1;background:white;padding:40px;border-radius:8px;box-shadow:0 2px 10px rgba(0,0,0,0.05)}
 .content h1{color:#0d47a1;margin-bottom:20px}
 .content p{font-size:16px;line-height:1.8;color:#333}
+
+/* 新增：响应式图片样式（核心修改） */
+.content img {
+  max-width: 100%;   /* 图片宽度不超过容器/屏幕 */
+  height: auto;      /* 高度自动，保持比例不变形 */
+  display: block;    /* 让图片独占一行 */
+  margin: 15px 0;    /* 图片上下留一点间距，更美观 */
+  border-radius: 4px;/* 可选：给图片加一点圆角 */
+}
+
 .footer{background:#222;color:#ccc;text-align:center;padding:20px;margin-top:30px;font-size:14px}
-@media(max-width:768px){.container{flex-direction:column}.sidebar{width:100%}}
-       
+@media(max-width:768px){
+  .container{flex-direction:column}
+  .sidebar{width:100%}
+}
 </style>
 </head>
 <body>
@@ -33,7 +45,7 @@ body{background:#f5f7fa}
   <div class="content">
     <h1>防汛抗旱</h1>
 <!-- 这里插入图片 -->
-    <img src="防汛.jpg" alt="应急演练现场">
+    <img src="防汛.jpg" alt="防汛条例图">
     
   
     <p> 河北省防汛避险人员转移条例公告</p>
@@ -49,6 +61,7 @@ body{background:#f5f7fa}
 <div class="footer">© 2026 博野县应急管理局 版权所有</div>
 </body>
 </html>
+
 
 
 
