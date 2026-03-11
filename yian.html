@@ -15,18 +15,19 @@ body{background:#f5f7fa}
 .sidebar a:hover{background:#1976d2;padding-left:28px}
 .content{flex:1;background:white;padding:40px;border-radius:8px;box-shadow:0 2px 10px rgba(0,0,0,0.05)}
 .content h1{color:#0d47a1;margin-bottom:20px}
-.content p{font-size:16px;line-height:1.8;color:#333}
+.content p{font-size:16px;line-height:1.8;color:#333;margin-bottom:20px}
 
-/* 图片自适应 */
+/* 图片自适应（和其他页面统一） */
 .content img {
   max-width: 100%;   
   height: auto;      
   display: block;    
   margin: 15px auto; 
   border-radius: 4px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
 }
 
-/* PDF预览容器 + 下载按钮样式 */
+/* PDF预览容器 + 下载按钮样式（统一风格） */
 .pdf-wrapper {
   width: 100%;
   margin: 20px auto;
@@ -71,7 +72,7 @@ body{background:#f5f7fa}
   color: #e53935;
 }
 
-/* 响应式适配 */
+/* 响应式适配（手机端） */
 .footer{background:#222;color:#ccc;text-align:center;padding:20px;margin-top:30px;font-size:14px}
 @media(max-width:768px){
   .container{flex-direction:column}
@@ -97,35 +98,35 @@ body{background:#f5f7fa}
   </div>
   <div class="content">
     <h1>应急预案和演练</h1>
-    <!-- 自适应图片 -->
- 
+    <!-- 可添加应急预案和演练相关图片（按需补充） -->
+    <!-- <img src="yian1.jpg" alt="应急预案和演练宣传图"> -->
     
-    <p>当预警警报拉响</p>
+    <p>当预警警报拉响，我们应按照应急预案开展规范的应急演练和处置工作，保障自身生命财产安全。</p>
     
-    <!-- PDF预览+下载区域 -->
+    <!-- PDF预览+下载区域（核心修复：统一PDF路径） -->
     <div class="pdf-wrapper">
       <!-- PDF预览容器 -->
       <div id="pdf-viewer">
         <p class="loading-tip">正在加载PDF文件，请稍候...</p>
       </div>
-      <!-- 下载链接（始终显示） -->
+      <!-- 下载链接（路径和JS里保持一致） -->
       <a href="当预警警报拉响.pdf" class="download-btn" download>
-        📥 下载PDF文件
+        📥 下载应急预案和演练PDF文件
       </a>
     </div>
   </div>
 </div>
 <div class="footer">© 2026 博野县应急管理局 版权所有</div>
 
-<!-- PDF.js渲染逻辑 -->
+<!-- PDF.js渲染逻辑（核心修复：修正PDF路径错误） -->
 <script>
 // 配置PDF.js的worker路径
 pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.worker.min.js';
 
 // 获取PDF容器
 const pdfViewer = document.getElementById('pdf-viewer');
-// PDF文件路径（和你的文件同名，路径已确认正确）
-const pdfPath = '河北省防汛避险人员转移条例公告.pdf';
+// 核心修复：PDF路径改为当前页面的正确文件名
+const pdfPath = '当预警警报拉响.pdf';
 
 // 加载并渲染PDF
 const loadingTask = pdfjsLib.getDocument(pdfPath);
@@ -173,4 +174,3 @@ loadingTask.promise
 </script>
 </body>
 </html>
-
