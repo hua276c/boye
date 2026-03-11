@@ -3,8 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>应急演练和预案 - 博野应急</title>
+<title>应急预案和演练 - 博野应急</title>
 <style>
+/* 基础样式 */
 *{margin:0;padding:0;box-sizing:border-box;font-family:"Microsoft YaHei",sans-serif}
 body{background:#f5f7fa}
 .header{background:#0d47a1;color:white;padding:20px;text-align:center;font-size:24px;font-weight:bold}
@@ -16,43 +17,73 @@ body{background:#f5f7fa}
 .content h1{color:#0d47a1;margin-bottom:20px}
 .content p{font-size:16px;line-height:1.8;color:#333}
 
-/* 图片自适应（增强版） */
+/* 图片自适应 */
 .content img {
-  max-width: 100%;   /* 核心：宽度不超过父容器 */
-  height: auto;      /* 保持宽高比，防止变形 */
+  max-width: 100%;   
+  height: auto;      
   display: block;    
-  margin: 15px auto; /* 水平居中，更美观 */
+  margin: 15px auto; 
   border-radius: 4px;
 }
 
-/* PDF容器自适应 */
-.pdf-container {
-  width: 100%;       /* 宽度铺满父容器 */
-  max-width: 100%;   /* 手机端不超出屏幕 */
-  height: 80vh;      /* 高度占视口80%，适配不同屏幕 */
-  margin: 20px auto; /* 居中+上下间距 */
+/* PDF预览容器 + 下载按钮样式 */
+.pdf-wrapper {
+  width: 100%;
+  margin: 20px auto;
+}
+#pdf-viewer {
+  width: 100%;
+  height: 70vh;
+  overflow: auto;
   border: 1px solid #eee;
-  overflow: auto;    /* 内容超出时可滚动 */
+  padding: 10px;
+  background: #f8f9fa;
+}
+.pdf-page {
+  margin: 10px auto;
+  display: block;
+  max-width: 100%;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+.download-btn {
+  display: block;
+  width: fit-content;
+  margin: 15px auto 0;
+  padding: 10px 20px;
+  background: #0d47a1;
+  color: white;
+  text-decoration: none;
+  border-radius: 4px;
+  font-size: 16px;
+  transition: background 0.3s;
+}
+.download-btn:hover {
+  background: #1565c0;
+}
+.loading-tip {
+  text-align: center;
+  padding: 20px;
+  color: #666;
+}
+.error-tip {
+  text-align: center;
+  padding: 20px;
+  color: #e53935;
 }
 
-/* PDF嵌入标签样式 */
-.pdf-container embed {
-  width: 100%;       /* 铺满容器 */
-  height: 100%;      /* 铺满容器 */
-}
-
+/* 响应式适配 */
 .footer{background:#222;color:#ccc;text-align:center;padding:20px;margin-top:30px;font-size:14px}
-
-/* 响应式适配（手机端） */
 @media(max-width:768px){
   .container{flex-direction:column}
   .sidebar{width:100%}
-  .content{padding:20px} /* 手机端减少内边距，避免内容挤 */
-  .pdf-container{
-    height: 60vh;      /* 手机端适当降低PDF高度，避免占满屏幕 */
+  .content{padding:20px} 
+  #pdf-viewer{
+    height: 60vh; /* 手机端降低预览高度 */
   }
 }
 </style>
+<!-- 引入PDF.js核心库 -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js"></script>
 </head>
 <body>
 <div class="header">博野应急管理局</div>
@@ -66,22 +97,79 @@ body{background:#f5f7fa}
   </div>
   <div class="content">
     <h1>应急预案和演练</h1>
-  
+    <!-- 自适应图片 -->
+ 
     
-    <p> 当预警警报拉响</p>
-    <!-- PDF容器：重构为自适应结构 -->
-    <div class="pdf-container">
-      <embed 
-        src="当预警警报拉响.pdf"  <!-- 替换为实际PDF路径 -->
-        type="application/pdf"
-        pluginspage="https://www.adobe.com/support/downloads/"  <!-- 兼容低版本浏览器 -->
-      >
+    <p>当预警警报拉响</p>
+    
+    <!-- PDF预览+下载区域 -->
+    <div class="pdf-wrapper">
+      <!-- PDF预览容器 -->
+      <div id="pdf-viewer">
+        <p class="loading-tip">正在加载PDF文件，请稍候...</p>
+      </div>
+      <!-- 下载链接（始终显示） -->
+      <a href="当预警警报拉响.pdf" class="download-btn" download>
+        📥 下载PDF文件
+      </a>
     </div>
   </div>
 </div>
 <div class="footer">© 2026 博野县应急管理局 版权所有</div>
+
+<!-- PDF.js渲染逻辑 -->
+<script>
+// 配置PDF.js的worker路径
+pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.worker.min.js';
+
+// 获取PDF容器
+const pdfViewer = document.getElementById('pdf-viewer');
+// PDF文件路径（和你的文件同名，路径已确认正确）
+const pdfPath = '河北省防汛避险人员转移条例公告.pdf';
+
+// 加载并渲染PDF
+const loadingTask = pdfjsLib.getDocument(pdfPath);
+loadingTask.promise
+  .then(pdf => {
+    // 清空加载提示
+    pdfViewer.innerHTML = '';
+    // 获取PDF总页数
+    const pageCount = pdf.numPages;
+    
+    // 逐页渲染PDF
+    for (let pageNum = 1; pageNum <= pageCount; pageNum++) {
+      pdf.getPage(pageNum).then(page => {
+        // 根据屏幕尺寸调整缩放比例（手机端适配）
+        const scale = window.innerWidth < 768 ? 0.9 : 1.2;
+        const viewport = page.getViewport({ scale });
+        
+        // 创建canvas用于渲染PDF页面
+        const canvas = document.createElement('canvas');
+        const context = canvas.getContext('2d');
+        canvas.height = viewport.height;
+        canvas.width = viewport.width;
+        canvas.className = 'pdf-page';
+        
+        // 添加到预览容器
+        pdfViewer.appendChild(canvas);
+        
+        // 渲染当前页
+        const renderContext = {
+          canvasContext: context,
+          viewport: viewport
+        };
+        page.render(renderContext);
+      });
+    }
+  })
+  .catch(error => {
+    // 加载失败时显示错误提示+下载链接
+    pdfViewer.innerHTML = `
+      <p class="error-tip">PDF文件加载失败 😞</p>
+      <p style="text-align:center; color:#666;">请点击下方按钮下载查看</p>
+    `;
+    console.error('PDF加载失败:', error);
+  });
+</script>
 </body>
 </html>
-
-
-
