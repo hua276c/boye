@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>应急预案和演练 - 博野应急</title>
+<title>应急演练和预案 - 博野应急</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:"Microsoft YaHei",sans-serif}
 body{background:#f5f7fa}
@@ -15,8 +15,43 @@ body{background:#f5f7fa}
 .content{flex:1;background:white;padding:40px;border-radius:8px;box-shadow:0 2px 10px rgba(0,0,0,0.05)}
 .content h1{color:#0d47a1;margin-bottom:20px}
 .content p{font-size:16px;line-height:1.8;color:#333}
+
+/* 图片自适应（增强版） */
+.content img {
+  max-width: 100%;   /* 核心：宽度不超过父容器 */
+  height: auto;      /* 保持宽高比，防止变形 */
+  display: block;    
+  margin: 15px auto; /* 水平居中，更美观 */
+  border-radius: 4px;
+}
+
+/* PDF容器自适应 */
+.pdf-container {
+  width: 100%;       /* 宽度铺满父容器 */
+  max-width: 100%;   /* 手机端不超出屏幕 */
+  height: 80vh;      /* 高度占视口80%，适配不同屏幕 */
+  margin: 20px auto; /* 居中+上下间距 */
+  border: 1px solid #eee;
+  overflow: auto;    /* 内容超出时可滚动 */
+}
+
+/* PDF嵌入标签样式 */
+.pdf-container embed {
+  width: 100%;       /* 铺满容器 */
+  height: 100%;      /* 铺满容器 */
+}
+
 .footer{background:#222;color:#ccc;text-align:center;padding:20px;margin-top:30px;font-size:14px}
-@media(max-width:768px){.container{flex-direction:column}.sidebar{width:100%}}
+
+/* 响应式适配（手机端） */
+@media(max-width:768px){
+  .container{flex-direction:column}
+  .sidebar{width:100%}
+  .content{padding:20px} /* 手机端减少内边距，避免内容挤 */
+  .pdf-container{
+    height: 60vh;      /* 手机端适当降低PDF高度，避免占满屏幕 */
+  }
+}
 </style>
 </head>
 <body>
@@ -31,14 +66,21 @@ body{background:#f5f7fa}
   </div>
   <div class="content">
     <h1>应急预案和演练</h1>
-    <p>制定完善各类突发事件应急预案，指导各单位编制、修订、备案预案。</p>
-    <p>组织开展应急演练，强化队伍训练，提升快速响应、协同处置和实战能力。</p>
-
+  
+    
+    <p> 当预警警报拉响</p>
+    <!-- PDF容器：重构为自适应结构 -->
+    <div class="pdf-container">
+      <embed 
+        src="当预警警报拉响.pdf"  <!-- 替换为实际PDF路径 -->
+        type="application/pdf"
+        pluginspage="https://www.adobe.com/support/downloads/"  <!-- 兼容低版本浏览器 -->
+      >
+    </div>
   </div>
 </div>
 <div class="footer">© 2026 博野县应急管理局 版权所有</div>
 </body>
-
 </html>
 
 
